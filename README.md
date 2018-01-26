@@ -50,7 +50,7 @@ In the settings.py module of the project make the following changes
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gram',
+        'NAME': 'instagram',
         'USER': *POSTGRES_USERNAME*,
         'PASSWORD': *POSTGRES_USERNAME*,
     }
