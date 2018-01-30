@@ -15,7 +15,7 @@ class Profile(models.Model):
 
     @classmethod
     def find_profile(cls,name):
-        found_profiles = cls.objects.filter(bio__icontains=name)
+        found_profiles = cls.objects.filter(bio__icontains = name).all()
         return found_profiles
 
 class Image(models.Model):

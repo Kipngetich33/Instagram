@@ -1,2 +1,21 @@
 {% extends 'all-grams/base.html'%} {% block content %} {{block.super}}
-<i class="fa fa-instagram" aria-hidden="true"></i> {% endblock %}
+<i class="fa fa-instagram" aria-hidden="true"></i>
+<div class="row">
+    {% if found_users %}
+    <h2>Found {{ found_users|length }} of searched term {{message}}</h2>
+    {% else %}
+    <h2> Found 0 users for the search term {{message}}</h2>
+    {% endif %}
+
+</div>
+
+<div class="row">
+
+    {% if found_users %} {% for user in found_users %}
+    <div class="col-sm-6 col-md-3">
+        <img src="{{user.profile_photo.url}}" class="img-responsive" alt='Image'>
+        <h5>{{user.bio}}</h5>
+    </div>
+    {% endfor %} {% endif %}
+</div>
+{% endblock %}
