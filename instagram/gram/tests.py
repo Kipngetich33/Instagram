@@ -84,11 +84,15 @@ class ProfileTestClass(TestCase):
         all_profiles = Profile.objects.all()
         self.assertTrue(len(all_profiles)==1)
 
-    def find_profile(self):
+    def test_find_profile(self):
         '''
         method that tests the find_profile method
         '''
-        pass
+        self.profile.save_profile()
+        profile2 = Profile(profile_photo ='test_profile_photo2',bio = 'test_bio2')
+        profile2.save_profile()
+        search_profile = Profile.find_profile('test_bio2')
+        self.assertTrue(len(search_profile)==1)
 
    
 

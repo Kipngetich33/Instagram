@@ -13,6 +13,11 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
 
+    @classmethod
+    def find_profile(cls,name):
+        found_profiles = cls.objects.filter(bio__icontains=name)
+        return found_profiles
+
 class Image(models.Model):
     image = models.ImageField(upload_to="images/",blank = True)
     image_name = models.CharField(max_length =30)
