@@ -14,6 +14,7 @@
     {% if found_users %} {% for user in found_users %}
     <div class="col-sm-6 col-md-3">
         <img src="{{user.profile_photo.url}}" class="img-responsive" alt='Image'>
+        <a href="{% url 'single_user' user.id %}"></a>
         <h5>{{user.bio}}</h5>
     </div>
     {% endfor %} {% endif %}
