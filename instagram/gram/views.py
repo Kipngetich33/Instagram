@@ -3,6 +3,8 @@ from django.shortcuts import render,redirect
 from . models import Image ,Profile
 import datetime as dt
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 @login_required(login_url='/accounts/login/')
 def timeline(request):
@@ -34,6 +36,13 @@ def single_image(request,image_id):
         raise Http404()
     return render(request, 'all-grams/single_image.html',{"image":image})
 
-@login_required(login_url='/accounts/login/')
 def post(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'all-grams/post.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
     return render(request, 'all-grams/post.html')
