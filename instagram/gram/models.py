@@ -1,11 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Profile(models.Model):
+    '''
+    class that defines the structure of each profile object
+    '''
     profile_photo = models.ImageField(upload_to="images/")
     bio = models.TextField(blank=True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
+    
     def __str__(self):
-        return self.bio
+        return self.user
 
     def save_profile(self):
         self.save()
@@ -22,8 +27,9 @@ class Image(models.Model):
     image = models.ImageField(upload_to="images/",blank = True)
     image_name = models.CharField(max_length =30)
     image_caption = models.TextField(blank=True)
-    profile_key = models.ForeignKey(Profile, on_delete=models.CASCADE, null= True)
     pub_date = models.DateTimeField(auto_now_add=True,blank=True, null= True)
+    profile_key = models.ForeignKey(Profile,on_delete=models.CASCADE , null= True)
+    user_key = models.ForeignKey(User,on_delete= models.CASCADE, null= True )
 
     def __str__(self):
         return self.image_name 

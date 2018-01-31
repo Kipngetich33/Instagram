@@ -2,7 +2,9 @@ from django.http  import Http404
 from django.shortcuts import render,redirect
 from . models import Image ,Profile
 import datetime as dt
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/accounts/login/')
 def timeline(request):
     date = dt.date.today()
     return render(request, 'all-grams/timeline.html',{"date":date}) 
@@ -31,3 +33,7 @@ def single_image(request,image_id):
     except:
         raise Http404()
     return render(request, 'all-grams/single_image.html',{"image":image})
+
+@login_required(login_url='/accounts/login/')
+def post(request):
+    return render(request, 'all-grams/post.html')
