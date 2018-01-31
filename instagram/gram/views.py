@@ -20,7 +20,14 @@ def search_results(request):
 
 def single_user(request,user_id):
     try:
-        user = User.objects.get(id=user_id)
+        user = Profile.objects.get(id=user_id)
     except:
         raise Http404()
-    return render(request,'all-grams/single_user.html',{"user":user})
+    return render(request,'all-grams/single.html',{"user":user})
+
+def single_image(request,image_id):
+    try:
+        image = Image.objects.get(id= image_id)
+    except:
+        raise Http404()
+    return render(request, 'all-grams/single_image.html',{"image":image})
