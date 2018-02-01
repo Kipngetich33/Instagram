@@ -4,7 +4,8 @@ from . models import Image ,Profile
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+from . forms import ImageForm
+import os
 
 @login_required(login_url='/accounts/login/')
 def timeline(request):
@@ -37,12 +38,21 @@ def single_image(request,image_id):
     return render(request, 'all-grams/single_image.html',{"image":image})
 
 def post(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'all-grams/post.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'all-grams/post.html')
+    '''
+    View function that displays a forms that allows users to upload images
+    '''
+    current_user = request.user
+
+    if request.method == 'POST':
+
+        form = ImageForm(request.POST ,request.FILES)
+
+        if form.is_valid():
+            image = form.save(commit = False)
+            image.user_key = current_user 
+            image.save() 
+
+            return redirect( timeline )
+    else:
+        form = ImageForm()
+    return render(request, 'all-grams/post.html',{"form" : form}) 
