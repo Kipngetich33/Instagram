@@ -4,13 +4,14 @@ from . models import Image ,Profile
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from . forms import ImageForm
+from . forms import ImageForm, CommentForm
 import os
 
 @login_required(login_url='/accounts/login/')
 def timeline(request):
     date = dt.date.today()
-    return render(request, 'all-grams/timeline.html',{"date":date}) 
+    timeline_images = Image.get_all_images()
+    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
 
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]:
@@ -49,10 +50,30 @@ def post(request):
 
         if form.is_valid():
             image = form.save(commit = False)
-            image.user_key = current_user 
+            image.user_key = current_user
             image.save() 
 
-            return redirect( timeline )
+            return redirect( timeline)
     else:
         form = ImageForm()
     return render(request, 'all-grams/post.html',{"form" : form}) 
+
+def comment(request, image_id):
+    current_image = Image.objects.get(id=image_id)
+    current_user = request.user
+
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+        logger_in = request.user
+
+        if form.is_valid():
+            comment = form.save(commit = False)
+            comment.user_id= current_user
+            comment.image_id = current_image
+
+            comment.save() 
+            return redirect(timeline)
+    else:
+        form = CommentForm()
+    return render(request,'all-grams/comment.html',{"form":form})  

@@ -1,2 +1,17 @@
-{% extends 'all-grams/base.html'%} {% block content %} {{block.super}}
-<i class="fa fa-instagram" aria-hidden="true"></i> {% endblock %}
+{% extends 'all-grams/base.html'%} {% load staticfiles %}
+
+<!-- Styles block -->
+{% block styles %} {{block.super}}
+<link rel="stylesheet" href="{% static 'css/timeline.css'%}"> {% endblock %}
+<!-- end of block styles-->
+
+{% block content %} {{block.super}}
+<div class "container">
+    <i class="fa fa-instagram" aria-hidden="true"></i>
+    <div>
+        {% for image in timeline_images%}
+        <img src={{image.image.url}} id="timeline_image">
+        <a href="{% url 'comment' image.id %}">Comment</a> {%endfor%}
+    </div>
+</div>
+{% endblock %}

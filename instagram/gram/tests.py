@@ -1,5 +1,5 @@
 from django.test import TestCase
-from . models import Image, Profile
+from . models import Image, Profile, Comment
 
 class ImageTestClass(TestCase):
     '''
@@ -94,6 +94,43 @@ class ProfileTestClass(TestCase):
         search_profile = Profile.find_profile('test_bio2')
         self.assertTrue(len(search_profile)==1)
 
+class CommentTestClass(TestCase):
+    '''
+    class that test the characteristics of the Comment model
+    '''
+
+    def setUp(self):
+        '''
+        method that runs at the begginning of each test
+        '''
+        self.new_comment = Comment(comment= "this is a test comment")
+        self.new_comment.save()
+
+    def test_instance(self):
+        '''
+        Test that checks if the created comment is an instance of the class Comment
+        '''
+        self.assertTrue(isinstance(self.new_comment,Comment))
+
+    def test_save_comment(self):
+        '''
+        method that tests save method of the Comment model
+        '''
+        self.new_comment.save_comment()
+        all_comments = Comment.objects.all()
+        self.assertTrue(len(all_comments)>0)
+
+        
+    def test_delete_comment(self):
+        '''
+        method that tests the delete_profile method
+        '''
+        self.new_comment.save_comment()
+        comment2 = Comment(comment='this is the seconf test comment')
+        comment2.save_comment()
+        self.new_comment.delete_comment()
+        all_comments = Comment.objects.all()
+        self.assertTrue(len(all_comments)==1)
    
 
 
