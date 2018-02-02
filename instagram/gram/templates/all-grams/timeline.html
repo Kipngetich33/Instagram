@@ -2,7 +2,9 @@
 
 <!-- Styles block -->
 {% block styles %} {{block.super}}
-<link rel="stylesheet" href="{% static 'css/timeline.css'%}"> {% endblock %}
+<link rel="stylesheet" href="{% static 'css/timeline.css'%}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Heebo" rel="stylesheet"> {% endblock %}
 <!-- end of block styles-->
 
 {% block content %} {{block.super}}
@@ -15,12 +17,16 @@
 
             <div class="well" style="margin:20px;  background-color:white;">
                 <div>
-                    <h5 style="font-weight:bolder;">&nbsp;&nbsp;&nbsp;{{image.user_key}}</h5>
+                    <h5 style="font-weight:bolder;font-family: 'Heebo', sans-serif;">&nbsp;&nbsp;&nbsp;{{image.user_key}}</h5>
                 </div>
                 <img src={{image.image.url}} id="timeline_image" style="width:100%;">
-                <div>
+                <div style="margin:10px;">
+                    <span class="glyphicon glyphicon-heart" style="font-size:30px;"></span>&nbsp;&nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
+                    <span class="glyphicon glyphicon-bookmark" style="font-size:30px;float:right;"></span>
                     <hr>
                     <a href="{% url 'comment' image.id %}">Add a comment...</a>
+                    <span class="glyphicon glyphicon-option-horizontal" style="float:right; font-size:20px;"></span>
                 </div>
             </div>
             {%endfor%}

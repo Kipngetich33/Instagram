@@ -1,17 +1,11 @@
 {% extends 'all-grams/base.html'%} {% load staticfiles%}{% load bootstrap3 %} {% block content %} {{block.super}}
 <div class="container">
-    <i class="fa fa-instagram" aria-hidden="true"></i>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %} {% bootstrap_form form%}
         <input type="submit" class="btn btn-primary btn-sm" value="Submit">
         <input type="hidden" name="next" value="{{next}}">
 
     </form>
-
-    {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-    {% endif %}
-
-    <p><a href="{% url 'timeline' %}">Return to home</a></p>
+    <p><a href="{% url 'timeline' %}">Back</a></p>
 </div>
 {% endblock %}
