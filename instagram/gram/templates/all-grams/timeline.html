@@ -8,10 +8,26 @@
 {% block content %} {{block.super}}
 <div class "container">
     <i class="fa fa-instagram" aria-hidden="true"></i>
-    <div>
-        {% for image in timeline_images%}
-        <img src={{image.image.url}} id="timeline_image">
-        <a href="{% url 'comment' image.id %}">Comment</a> {%endfor%}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-6">
+            {% for image in timeline_images%}
+
+            <div class="well" style="margin:20px;  background-color:white;">
+                <div>
+                    <h5 style="font-weight:bolder;">&nbsp;&nbsp;&nbsp;{{image.user_key}}</h5>
+                </div>
+                <img src={{image.image.url}} id="timeline_image" style="width:100%;">
+                <div>
+                    <hr>
+                    <a href="{% url 'comment' image.id %}">Add a comment...</a>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-md-4"></div>
     </div>
+
 </div>
-{% endblock %}
+{% endblock %} {% block scripts %} {{block.super}}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>{% endblock %}

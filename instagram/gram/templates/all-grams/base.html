@@ -14,10 +14,7 @@
 </head>
 
 <body>
-    {% include "navbar.html" %} {% block content %}
-    <h1>Insta {{date|date:"l d-F Y"}}</h1>
-    <h1> Welcome to Insta</h1>
-    {%endblock%} {% block scripts %}
+    {% include "navbar.html" %} {% block content %} {%endblock%} {% block scripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     {% bootstrap_javascript %} {% endblock %}
 </body>

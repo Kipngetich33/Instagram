@@ -1,4 +1,5 @@
-#timeline_image {
-    height: 500px;
-    width: 500px;
+#timeline_image {}
+
+.well {
+    margin: 10px;
 }

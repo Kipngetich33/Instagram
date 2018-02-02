@@ -1,5 +1,5 @@
 from django.test import TestCase
-from . models import Image, Profile, Comment
+from . models import Image, Profile, Comment, Like
 
 class ImageTestClass(TestCase):
     '''
@@ -131,6 +131,30 @@ class CommentTestClass(TestCase):
         self.new_comment.delete_comment()
         all_comments = Comment.objects.all()
         self.assertTrue(len(all_comments)==1)
+
+class LikesTestClass(TestCase):
+    '''
+    class that test the characteristics of the Comment model
+    '''
+
+    def setUp(self):
+        '''
+        Method that runs at the beggining of each test
+        '''
+        self.new_like = Like (likes_number=0)
+        self.new_like.save() 
+
+    def test_instance(self):
+        '''
+        Test whether an object is an instance of class Like
+        '''
+        self.assertTrue(isinstance(self.new_like, Like))
+
+
+
+
+
+
    
 
 

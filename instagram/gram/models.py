@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 class Profile(models.Model):
     '''
@@ -79,3 +80,27 @@ class Comment(models.Model):
         methods that deletes a comment on an image
         '''
         self.delete()        
+
+
+class Like(models.Model):
+    '''
+    Class defines the structure of a like on a an posted Image
+    '''
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null= True)
+
+    image = models.ForeignKey(Image,on_delete=models.CASCADE, null = True)
+
+    likes_number = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+    @classmethod
+    def get_total_likes(cls,image_id):
+        likes = Like.objects.filter(id = image_id)
+        total_likes = post.aggregate(Sum('likes')).get('likes__sum',0)
+        return total_likes
+
+    def save_like(self):
+        self.save()
