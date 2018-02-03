@@ -92,8 +92,8 @@ class Like(models.Model):
 
     likes_number = models.PositiveIntegerField(null=True, blank=True)
 
-    def __str__(self):
-        return self.user 
+    def __int__(self):
+        return self.likes_number 
 
     def save_like(self):
         self.save()
@@ -107,6 +107,6 @@ class Like(models.Model):
         self.save()
 
     @classmethod
-    def get_total_likes(cls,image_id):
-        likes = cls.objects.filter(id = image_id)
+    def get_likes(cls):
+        likes = cls.objects.all()
         return likes 

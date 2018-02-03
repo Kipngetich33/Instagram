@@ -14,7 +14,6 @@
         <div class="col-md-2"></div>
         <div class="col-md-6">
             {% for image in timeline_images%}
-
             <div class="well" style="margin:20px;  background-color:white;">
                 <div>
                     <h5 style="font-weight:bolder;font-family: 'Heebo', sans-serif;">&nbsp;&nbsp;&nbsp;{{image.user_key}}</h5>
@@ -24,9 +23,13 @@
                     <span class="glyphicon glyphicon-heart" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
                     <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
                     <span class="glyphicon glyphicon-bookmark" style="font-size:30px;float:right;"></span>
+                    <hr> {%for like in likes%} {%if like.image == image%} total.likes like: 1{%else%}Likes:none {% endif %} {% endfor %}
+
+                    <h5>{{image.pub_date | timesince}} ago</h5>
                     <hr>
                     <a href="{% url 'comment' image.id %}">Add a comment...</a>
                     <span class="glyphicon glyphicon-option-horizontal" style="float:right; font-size:20px;"></span>
+
                 </div>
             </div>
             {%endfor%}

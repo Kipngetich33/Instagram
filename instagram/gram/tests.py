@@ -168,6 +168,7 @@ class LikesTestClass(TestCase):
         self.new_like.like()
         like_status = self.new_like.likes_number
         self.assertTrue(like_status == 2)
+
     
     
 

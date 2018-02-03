@@ -1,6 +1,6 @@
 from django.http  import Http404
 from django.shortcuts import render,redirect
-from . models import Image ,Profile
+from . models import Image ,Profile, Like
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -11,7 +11,8 @@ import os
 def timeline(request):
     date = dt.date.today()
     timeline_images = Image.get_all_images()
-    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
+    likes = Like.get_likes()
+    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images, "likes":likes}) 
 
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]:
