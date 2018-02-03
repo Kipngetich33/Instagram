@@ -141,14 +141,37 @@ class LikesTestClass(TestCase):
         '''
         Method that runs at the beggining of each test
         '''
-        self.new_like = Like (likes_number=0)
-        self.new_like.save() 
+        self.new_like = Like (likes_number=0) 
 
     def test_instance(self):
         '''
         Test whether an object is an instance of class Like
         '''
         self.assertTrue(isinstance(self.new_like, Like))
+
+    def test_save_like(self):
+        '''
+        Test whether the save_likes method works
+        '''
+        self.new_like.save_like()
+        likes = Like.objects.all()
+        self.assertTrue(len(likes)>0)
+
+    def test_unlike(self):
+        self.new_like.save_like()
+        self.new_like.unlike()
+        like_status = self.new_like.likes_number
+        self.assertTrue(like_status == 1)
+
+    def test_like(self):
+        self.new_like.save_like()
+        self.new_like.like()
+        like_status = self.new_like.likes_number
+        self.assertTrue(like_status == 2)
+    
+    
+
+    
 
 
 

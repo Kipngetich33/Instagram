@@ -96,9 +96,17 @@ class Like(models.Model):
         return self.user 
 
     def save_like(self):
-        self.save_like()
+        self.save()
+
+    def unlike(self):
+        self.likes_number = 1
+        self.save()
+
+    def like(self):
+        self.likes_number = 2
+        self.save()
 
     @classmethod
     def get_total_likes(cls,image_id):
         likes = cls.objects.filter(id = image_id)
-        return likes
+        return likes 
