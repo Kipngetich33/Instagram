@@ -79,6 +79,12 @@ def comment(request, image_id):
         form = CommentForm()
     return render(request,'all-grams/comment.html',{"form":form})  
 
+def update_profile(request):
+    title = 'Update Profile'
+    return render(request,'profile/update_profile.html',{"title":title})
+
+
+
 def like(request):
     pass
 
