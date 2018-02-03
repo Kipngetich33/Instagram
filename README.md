@@ -81,4 +81,4 @@ In case You have any issues using this code please do no hesitate to get in touc
 
 ## License 
 
-Copyright **[MIT(./LICENSE)]** (c) 2017 **[Kipngetich Ngeno(https://github.com/Kipngetich33)]**
+Copyright MIT [LiCENSE](./LICENSE) (c) 2017 [Kipngetich Ngeno](https://github.com/Kipngetich33)
