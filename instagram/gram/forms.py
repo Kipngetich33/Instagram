@@ -23,7 +23,7 @@ class ProfileUpdateForm(forms.Form):
     '''
     classs that creates profile update form
     ''' 
-    profile_photo = forms.ImageField(label='Image')
+    profile_photo = forms.ImageField(label = 'Image Field') 
     bio = forms.CharField(label='Image Caption',max_length=500)
 
 class UpdateImageCaption(forms.Form):
