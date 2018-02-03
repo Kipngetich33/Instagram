@@ -4,7 +4,7 @@ from . models import Image ,Profile, Like
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from . forms import ImageForm, CommentForm
+from . forms import ImageForm, CommentForm, ProfileUpdateForm
 import os
 
 @login_required(login_url='/accounts/login/')
@@ -79,23 +79,47 @@ def comment(request, image_id):
         form = CommentForm()
     return render(request,'all-grams/comment.html',{"form":form})  
 
+@login_required(login_url='/accounts/login/')
 def update_profile(request):
+    current_user = request.user 
     title = 'Update Profile'
-    return render(request,'profile/update_profile.html',{"title":title})
+
+    current_user = request.user
+
+    if request.method == 'POST':
+
+        form = ProfileUpdateForm(request.POST ,request.FILES)
+
+        if form.is_valid():
+            new_profile = form.save(commit = False)
+            new_profile.user = current_user.id
+            new_profile.save() 
+
+            return redirect( timeline)
+    else:
+        form = ImageForm()
+
+    return render(request,'profile/update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
 def profile(request):
-    return render(request,'profile/profile.html')
+    title = 'Profile'
+    current_user = request.user
+    profile = Profile.objects.get(user_id = current_user) 
+    return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user})
+
+
+def more(request,image_id):
+    image = Image.objects.get(id = image_id)
+    return render(request,'all-grams/more.html',{"image":image}) 
 
 
 def like(request):
     pass
 
-def test(request,user):
-    profile = Profile.objects.get(user= user)
-    current_user = request.user
-    return render(request, 'all-grams/test.html',{"profile":profile, "current_user":current_user})
+def test(request):
+    return render(request, 'all-grams/test.html')
 
-def more(request,image_id):
-    image = Image.objects.get(id = image_id)
-    return render(request,'all-grams/more.html',{"image":image}) 
+
+
+
 

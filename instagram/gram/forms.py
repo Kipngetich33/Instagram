@@ -1,5 +1,5 @@
 from django import forms
-from . models import Image, Comment
+from . models import Image, Comment, Profile
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -18,4 +18,12 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment']
+
+class ProfileUpdateForm(forms.ModelForm):
+    '''
+    classs that creates profile update form
+    '''
+    class Meta:
+        model = Profile
+        fields = ['profile_photo','bio']  
 

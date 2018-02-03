@@ -11,7 +11,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
     
     def __str__(self):
-        return self.user
+        return self.bio
 
     def save_profile(self):
         self.save()
@@ -44,6 +44,11 @@ class Image(models.Model):
     def update_caption(self,new_caption):
         self.image_caption = new_caption
         self.save()
+
+    @classmethod
+    def get_image_by_id(cls,id):
+        retrived_image = Image.objects.get(id = id)
+        return retrived_image
 
     class Meta:
         '''

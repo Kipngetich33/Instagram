@@ -1,7 +1,15 @@
 {%extends 'profile/base.html'%}{% block content %}
-<div class="container">
-    <div class="row">
 
-    </div>
+<div class="container">
+    <img src={{profile.profile_photo.url}} style="float:left">
+
+    <p>{{profile.bio}}</p>
+
+    {% if profile.user == current_user%}
+    <a href="{% url 'update_profile'%}">Update Profile</a> {% endif %}
 </div>
-{% endblock %}
+
+
+
+
+{% endblock %} profile_photo = models.ImageField(upload_to="images/",null = True) bio = models.TextField(default='',blank=True) user
