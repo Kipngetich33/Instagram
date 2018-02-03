@@ -6,6 +6,7 @@ class Profile(models.Model):
     '''
     class that defines the structure of each profile object
     '''
+    username = models.CharField(max_length=30,null= True)
     profile_photo = models.ImageField(upload_to="images/",null = True)
     bio = models.TextField(default='',blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
@@ -22,7 +23,7 @@ class Profile(models.Model):
 
     @classmethod
     def find_profile(cls,name):
-        found_profiles = cls.objects.filter(bio__icontains = name).all()
+        found_profiles = cls.objects.filter(username__icontains = name).all()
         return found_profiles
 
 class Image(models.Model):

@@ -25,14 +25,14 @@ def search_results(request):
         message = "Please enter a valid username"
     return render(request,'all-grams/search_results.html',{"message":message})
 
-def single_user(request,user_id):
+def single_user(request,id):
     try:
-        user = Profile.objects.get(id=user_id)
+        user = Profile.objects.get(id=id)
     except:
         raise Http404()
     return render(request,'all-grams/single.html',{"user":user})
 
-def single_image(request,image_id):
+def single_image(request,image_id): 
     try:
         image = Image.objects.get(id= image_id)
     except:
@@ -93,6 +93,7 @@ def update_profile(request):
         if form.is_valid():
             requested_profile.profile_photo = form.cleaned_data['profile_photo']
             requested_profile.bio = form.cleaned_data['bio']
+            requested_profile.username = form.cleaned_data['username']
             requested_profile.save_profile()
             return redirect( profile )
     else:

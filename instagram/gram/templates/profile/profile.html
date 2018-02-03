@@ -3,7 +3,7 @@
 <div class="container">
     {% if profile %}
     <img src={{profile.profile_photo.url}} style="float:left">
-
+    <h5>{{profile.username}}</h5>
     <p>{{profile.bio}}</p>
     {% endif %} {% if profile.user == current_user%}
     <a href="{% url 'update_profile'%}">Update Profile</a> {% else%}
