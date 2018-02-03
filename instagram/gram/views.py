@@ -4,7 +4,7 @@ from . models import Image ,Profile, Like
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from . forms import ImageForm, CommentForm, ProfileUpdateForm
+from . forms import ImageForm, CommentForm, ProfileUpdateForm,UpdateImageCaption 
 import os
 
 @login_required(login_url='/accounts/login/')
@@ -85,33 +85,49 @@ def update_profile(request):
     title = 'Update Profile'
 
     current_user = request.user
+    requested_profile = Profile.objects.get(user_id = current_user.id)
 
     if request.method == 'POST':
-
         form = ProfileUpdateForm(request.POST ,request.FILES)
 
         if form.is_valid():
-            new_profile = form.save(commit = False)
-            new_profile.user = current_user.id
-            new_profile.save() 
-
-            return redirect( timeline)
+            requested_profile.profile_photo = form.cleaned_data['profile_photo']
+            requested_profile.bio = form.cleaned_data['bio']
+            requested_profile.save_profile()
+            return redirect( profile )
     else:
-        form = ImageForm()
-
+        form = ProfileUpdateForm()
     return render(request,'profile/update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
 def profile(request):
     title = 'Profile'
     current_user = request.user
-    profile = Profile.objects.get(user_id = current_user) 
+    try:
+        profile = Profile.objects.get(user_id = current_user) 
+    except:
+        raise Http404()
+
     return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user})
 
 
 def more(request,image_id):
     image = Image.objects.get(id = image_id)
-    return render(request,'all-grams/more.html',{"image":image}) 
 
+    current_user = request.user
+    update_image = Image.objects.get(id= image_id)
+
+    if request.method == 'POST':
+        form = UpdateImageCaption(request.POST)
+        if form.is_valid():
+            new_caption = form.cleaned_data['image_caption']
+            update_image.image_caption = new_caption
+            update_image.save_image() 
+
+            return redirect( more ,image_id)
+    else:
+        form = UpdateImageCaption()
+
+    return render(request,'all-grams/more.html',{"image":image, "form":form}) 
 
 def like(request):
     pass

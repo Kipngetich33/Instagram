@@ -19,11 +19,16 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['comment']
 
-class ProfileUpdateForm(forms.ModelForm):
+class ProfileUpdateForm(forms.Form):
     '''
     classs that creates profile update form
+    ''' 
+    profile_photo = forms.ImageField(label='Image')
+    bio = forms.CharField(label='Image Caption',max_length=500)
+
+class UpdateImageCaption(forms.Form):
     '''
-    class Meta:
-        model = Profile
-        fields = ['profile_photo','bio']  
+    class that creates the caption update form
+    '''
+    image_caption = forms.CharField(label='Image Caption',max_length=300)
 

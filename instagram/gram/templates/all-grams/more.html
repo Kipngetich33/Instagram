@@ -4,4 +4,14 @@
     <h5>{{image.image_name}}</h5>
     <p>{{image.image_caption}}</p>
     <h5>{{image.pub_date}}</h5>
+
+    <div>
+        <form method="post">
+            {% csrf_token %} {% bootstrap_form form layout='inline'%}
+            <input type="submit" class="btn btn-primary btn-sm" value="Submit">
+            <input type="hidden" name="next" value="{{next}}">
+
+        </form>
+        <p><a href="{% url 'timeline' %}">Back</a></p>
+    </div>
 </div> {% endblock %}

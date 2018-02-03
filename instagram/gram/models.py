@@ -19,6 +19,7 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
 
+
     @classmethod
     def find_profile(cls,name):
         found_profiles = cls.objects.filter(bio__icontains = name).all()

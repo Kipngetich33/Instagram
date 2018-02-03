@@ -1,7 +1,7 @@
 {%extends 'profile/base.html'%}{% load staticfiles%}{% load bootstrap3 %} {%block content%}
 <div class="container">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %} {% bootstrap_form form%}
+    <form method="post">
+        {% csrf_token %} {% bootstrap_form form layout='inline'%}
         <input type="submit" class="btn btn-primary btn-sm" value="Submit">
         <input type="hidden" name="next" value="{{next}}">
 

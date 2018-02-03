@@ -53,6 +53,7 @@ class ImageTestClass(TestCase):
         '''
         pass
 
+
 class ProfileTestClass(TestCase):
     '''
     class that test the characteristics of the Profile model
