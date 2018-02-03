@@ -79,10 +79,7 @@ def comment(request, image_id):
     return render(request,'all-grams/comment.html',{"form":form})  
 
 def like(request):
-    
-    send_welcome_email(name, email)
-    data = {'success': 'You have been successfully added to mailing list'}
-    return JsonResponse(data)
+    pass
 
 def test(request):
     return render(request, 'all-grams/test.html')
