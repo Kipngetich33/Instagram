@@ -83,11 +83,19 @@ def update_profile(request):
     title = 'Update Profile'
     return render(request,'profile/update_profile.html',{"title":title})
 
+def profile(request):
+    return render(request,'profile/profile.html')
 
 
 def like(request):
     pass
 
-def test(request):
-    return render(request, 'all-grams/test.html')
+def test(request,user):
+    profile = Profile.objects.get(user= user)
+    current_user = request.user
+    return render(request, 'all-grams/test.html',{"profile":profile, "current_user":current_user})
+
+def more(request,image_id):
+    image = Image.objects.get(id = image_id)
+    return render(request,'all-grams/more.html',{"image":image}) 
 

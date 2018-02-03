@@ -18,7 +18,8 @@
                 <div>
                     <h5 style="font-weight:bolder;font-family: 'Heebo', sans-serif;">&nbsp;&nbsp;&nbsp;{{image.user_key}}</h5>
                 </div>
-                <img src={{image.image.url}} id="timeline_image" style="width:100%;">
+                <a href="{% url 'more' image.id %}"><img src={{image.image.url}} id="timeline_image" style="width:100%;">
+                </a>
                 <div style="margin:10px;">
                     <span class="glyphicon glyphicon-heart" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
                     <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>

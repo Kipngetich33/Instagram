@@ -1,0 +1,7 @@
+{% extends 'all-grams/base.html'%} {% load staticfiles%}{% load bootstrap3 %} {% block content %} {{block.super}}
+<div class="container">
+    <img src={{image.image.url}} style="float:left">
+    <h5>{{image.image_name}}</h5>
+    <p>{{image.image_caption}}</p>
+    <h5>{{image.pub_date}}</h5>
+</div> {% endblock %}

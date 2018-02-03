@@ -11,7 +11,9 @@ urlpatterns=[
     url(r'^post/', views.post, name='post'),
     url(r'^comment/(\d+)', views.comment, name='comment'),
     url(r'^test/', views.test, name='test'),
-    url(r'^update/', views.update_profile, name='update_profile'),
+    url(r'^update/profile', views.update_profile, name='update_profile'),
+    url(r'^profile/', views.profile, name='profile'),
+    url(r'^more/(\d+)', views.more, name='more'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
