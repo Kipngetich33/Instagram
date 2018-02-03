@@ -1,0 +1,18 @@
+{%extends 'all-grams/base.html'%} {%load staticfiles%}
+
+
+<!-- Styles block -->
+{% block styles %} {{block.super}}
+<link rel="stylesheet" href="{% static 'css/timeline.css'%}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Heebo" rel="stylesheet"> {% endblock %}
+<!-- end of block styles-->
+{% block content %}
+
+<div class="container">
+    <button type="button" id="like_button">Click Me!</button>
+</div>
+
+<span class="glyphicon glyphicon-heart" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp; {% endblock %} {% block scripts %} {{block.super}}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="{%static 'js/timeline.js'%}"></script>{% endblock %}

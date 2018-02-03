@@ -21,7 +21,7 @@
                 </div>
                 <img src={{image.image.url}} id="timeline_image" style="width:100%;">
                 <div style="margin:10px;">
-                    <span class="glyphicon glyphicon-heart" style="font-size:30px; hover:" id='like_button'></span>&nbsp;&nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-heart" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
                     <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
                     <span class="glyphicon glyphicon-bookmark" style="font-size:30px;float:right;"></span>
                     <hr>
@@ -37,4 +37,4 @@
 </div>
 {% endblock %} {% block scripts %} {{block.super}}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-<script type="text/javascript" src="timeline.js"></script>{% endblock %}
+<script type="text/javascript" src="{%static 'js/timeline.js'%}"></script>{% endblock %}
