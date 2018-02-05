@@ -12,7 +12,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
     
     def __str__(self):
-        return self.bio
+        return self.username
 
     def save_profile(self):
         self.save()
@@ -51,6 +51,11 @@ class Image(models.Model):
     def get_image_by_id(cls,id):
         retrived_image = Image.objects.get(id = id)
         return retrived_image
+
+    @classmethod
+    def get_images_by_user(cls,id):
+        posted_images = Image.objects.filter(user_id=id)
+        return posted_images
 
     class Meta:
         '''
@@ -100,7 +105,7 @@ class Like(models.Model):
     likes_number = models.PositiveIntegerField(null=True, blank=True)
 
     def __int__(self):
-        return self.likes_number 
+        return self.user.username
 
     def save_like(self):
         self.save()
@@ -114,6 +119,25 @@ class Like(models.Model):
         self.save()
 
     @classmethod
-    def get_likes(cls):
-        likes = cls.objects.all()
+    def get_likes(cls,image_id):
+        '''
+        Function that get likes belonging to a paticular posts
+        '''
+        likes = cls.objects.filter(image_id)
         return likes 
+
+class Follow(models.Model):
+    '''
+    Class that defines followers of each user
+    '''
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null= True)
+    follower = models.ForeignKey(Profile,on_delete=models.CASCADE, null= True)
+    
+    def __int__(self):
+        return self.follower.username 
+
+    @classmethod
+    def follow(cls,id):
+        follow= Profile.objects.get(id=id)
+        return follow
+

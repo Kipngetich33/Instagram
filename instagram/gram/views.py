@@ -11,8 +11,7 @@ import os
 def timeline(request):
     date = dt.date.today()
     timeline_images = Image.get_all_images()
-    likes = Like.get_likes()
-    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images, "likes":likes}) 
+    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images,}) 
 
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]:
@@ -30,7 +29,7 @@ def single_user(request,id):
         user = Profile.objects.get(id=id)
     except:
         raise Http404()
-    return render(request,'all-grams/single.html',{"user":user})
+    return render(request,'all-grams/single.html',{"user":user,"user_images":user_images})
 
 def single_image(request,image_id): 
     try:
@@ -39,6 +38,7 @@ def single_image(request,image_id):
         raise Http404()
     return render(request, 'all-grams/single_image.html',{"image":image})
 
+@login_required(login_url='/accounts/login/')
 def post(request):
     '''
     View function that displays a forms that allows users to upload images
@@ -56,7 +56,7 @@ def post(request):
 
             return redirect( timeline)
     else:
-        form = ImageForm()
+        form = ImageForm() 
     return render(request, 'all-grams/post.html',{"form" : form}) 
 
 def comment(request, image_id):
@@ -133,8 +133,17 @@ def more(request,image_id):
 def like(request):
     pass
 
-def test(request):
+def test(request,image_id):
+    requested_image = Image.objects.get(id = image_id)
+    current_user = request.user
+    like = Like(user= current_user ,image= requested_image,likes_number =1)
+    like.save_like()
+
     return render(request, 'all-grams/test.html')
+
+def view_profiles(request):
+    all_profiles = Profile.objects.all()
+    return render(request,'profile/all.html',{"all_profiles":all_profiles}) 
 
 
 

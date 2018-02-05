@@ -22,7 +22,9 @@
                 </a>
                 <div style="margin:10px;">
                     <span class="glyphicon glyphicon-heart-empty" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
+                    <a href="{% url 'comment' image.id %}">
+                        <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
+                    </a>
                     <span class="glyphicon glyphicon-bookmark" style="font-size:30px;float:right;"></span>
                     <hr> {%for like in likes%} {%if like.image == image%} total.likes like: 1{%else%}Likes:none {% endif %} {% endfor %}
 

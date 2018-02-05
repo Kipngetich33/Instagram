@@ -10,9 +10,11 @@ urlpatterns=[
     url(r'^image/(\d+)', views.single_image, name='single_image'), 
     url(r'^post/', views.post, name='post'),
     url(r'^comment/(\d+)', views.comment, name='comment'),
-    url(r'^test/', views.test, name='test'),
+    url(r'^test/(\d+)', views.test, name='test'),
     url(r'^update/profile', views.update_profile, name='update_profile'),
     url(r'^profile/', views.profile, name='profile'),
+    url(r'^more/(\d+)', views.more, name='more'),
+    url(r'^view/profiles', views.view_profiles, name='viewProfiles'),
     url(r'^more/(\d+)', views.more, name='more'),
 ]
 if settings.DEBUG:

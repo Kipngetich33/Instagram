@@ -10,9 +10,11 @@
 {% block content %}
 
 <div class="container">
-    <button type="button" id="like_button">Click Me!</button>
+    <button type="button">Click Me!</button>
 </div>
-
-<span class="glyphicon glyphicon-heart" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp; {% endblock %} {% block scripts %} {{block.super}}
+<a href="{% url 'test' 3 %}">
+    <span class="glyphicon glyphicon-heart" style="font-size:30px;" type="button" id='like_button'></span>
+</a>
+&nbsp;&nbsp;&nbsp; {% endblock %} {% block scripts %} {{block.super}}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="{%static 'js/timeline.js'%}"></script>{% endblock %}
