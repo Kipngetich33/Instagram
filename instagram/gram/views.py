@@ -154,8 +154,9 @@ def follow(request,profile_id):
 def like(request,image_id):
     requested_image = Image.objects.get(id = image_id)
     current_user = request.user
+    if_voted = Like.objects.filter(image = requested_image).get(user = current_user ).count()
     
-    if Like.objects.filter(image = requested_image).get(user = current_user ):
+    if if_voted==0:
         requested_image.likes -1
         requested_image.save_image()
     else:
