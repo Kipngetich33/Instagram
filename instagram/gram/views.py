@@ -1,6 +1,6 @@
 from django.http  import Http404
 from django.shortcuts import render,redirect
-from . models import Image ,Profile, Like
+from . models import Image ,Profile, Like, Follow
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -11,7 +11,7 @@ import os
 def timeline(request):
     date = dt.date.today()
     timeline_images = Image.get_all_images()
-    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images,}) 
+    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
 
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]:
@@ -52,6 +52,7 @@ def post(request):
         if form.is_valid():
             image = form.save(commit = False)
             image.user_key = current_user
+            image.likes +=1
             image.save() 
 
             return redirect( timeline)
@@ -104,12 +105,13 @@ def profile(request):
     title = 'Profile'
     current_user = request.user
     try:
-        profile = Profile.objects.get(user_id = current_user) 
+        profile = Profile.objects.get(user_id = current_user)
+        following = Follow.objects.filter(follower = current_user)
+        followers = Follow.objects.filter(user = profile)
     except:
         raise Http404()
 
-    return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user})
-
+    return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user,"following":following,"followers":followers})
 
 def more(request,image_id):
     image = Image.objects.get(id = image_id)
@@ -130,20 +132,38 @@ def more(request,image_id):
 
     return render(request,'all-grams/more.html',{"image":image, "form":form}) 
 
-def like(request):
-    pass
-
-def test(request,image_id):
-    requested_image = Image.objects.get(id = image_id)
+def test(request):
     current_user = request.user
-    like = Like(user= current_user ,image= requested_image,likes_number =1)
-    like.save_like()
+    following = Follow.objects.filter(user)
+
+    
 
     return render(request, 'all-grams/test.html')
 
 def view_profiles(request):
     all_profiles = Profile.objects.all()
     return render(request,'profile/all.html',{"all_profiles":all_profiles}) 
+
+def follow(request,profile_id):
+    current_user = request.user
+    requested_profile = Profile.objects.get(id = profile_id)
+    follower = Follow(follower = current_user,user = requested_profile)
+    follower.save_follower() 
+    return render(request,'profile/all.html') 
+
+def like(request,image_id):
+    requested_image = Image.objects.get(id = image_id)
+    current_user = request.user
+    
+    if Like.objects.filter(image = requested_image).get(user = current_user ):
+        requested_image.likes -1
+        requested_image.save_image()
+    else:
+        requested_image.likes +=1
+        requested_image.save_image()
+    
+    return render(request,'all-grams/timeline.html')
+
 
 
 

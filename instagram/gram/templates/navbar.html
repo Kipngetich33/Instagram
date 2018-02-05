@@ -21,9 +21,6 @@
             <a href="{% url 'timeline' %}" id="instTitle" style="float:right;">
                     {{user.username}}
             </a>
-            <a href="{% url 'post' %}" id="instTitle" style="float:right; margin-right:10px;">
-                     Post
-            </a>
 
             <a href="{% url 'profile' %}" id="instTitle" style="float:right; margin-right:10px; font-size:25px;">
                 <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;
@@ -31,7 +28,10 @@
             <a href="{% url 'profile' %}" id="instTitle" style="float:right; margin-right:10px;font-size:25px;">
                 <span class="glyphicon glyphicon-heart-empty"></span>&nbsp;&nbsp;&nbsp;
             </a>
-            <a href="{% url 'viewProfiles' %}" style="float:right;">Tour</a>
+            <a href="{% url 'viewProfiles' %}" style="float:right;">
+                <img src="data:image/png;base64,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"
+                    style="height:30px;width:30px;">&nbsp;&nbsp;&nbsp;
+            </a>
 
             <!-- Adding a search form  -->
             <form class="navbar-form" role="search" action="{% url 'search_results' %}">

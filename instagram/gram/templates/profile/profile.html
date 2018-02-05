@@ -1,4 +1,4 @@
-{%extends 'profile/base.html'%}{% block content %}
+{%extends 'profile/base.html'%}{% block content %} {% load bootstrap3 %}
 
 <div class="container">
 
@@ -13,15 +13,18 @@
                 <h5 style="font-size:35px;">{{profile.username}}</h5>
                 <p>{{profile.bio}}</p>
                 {% endif %} {% if profile.user == current_user%}
-                <a href="{% url 'update_profile'%}">Update Profile</a> {% else%}
-                <h3>Profile has not been created yet</h3>
+                <a href="{% url 'update_profile'%}">Edit Profile</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'post' %}">
+                    <span class="glyphicon glyphicon-plus-sign" style="font-size:35px;"></span>
+                </a>
+                <h5>Followers:{{followers | length }}</h5>
+                <h5>Following:{{following | length }}</h5 {% else%} <h3>Profile has not been created yet</h3>
                 {% endif %}
+                <hr>
             </div>
         </div>
 
     </div>
     <div class='col-md-2'></div>
-
-
 </div>
 {% endblock %} profile_photo = models.ImageField(upload_to="images/",null = True) bio = models.TextField(default='',blank=True) user

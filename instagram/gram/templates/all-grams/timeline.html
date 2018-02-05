@@ -1,17 +1,18 @@
-{% extends 'all-grams/base.html'%} {% load staticfiles %}
+{% extends 'all-grams/base.html'%} {% load staticfiles %}{%load bootstrap3 %}
 
 <!-- Styles block -->
 {% block styles %} {{block.super}}
-<link rel="stylesheet" href="{% static 'css/timeline.css'%}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Heebo" rel="stylesheet"> {% endblock %}
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Heebo" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/timeline.css'%}"> {% endblock %}
 <!-- end of block styles-->
 
 {% block content %} {{block.super}}
 <div class "container">
     <i class="fa fa-instagram" aria-hidden="true"></i>
     <div class="row">
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+        </div>
         <div class="col-md-6">
             {% for image in timeline_images%}
             <div class="well" style="margin:20px;  background-color:white;">
@@ -21,13 +22,15 @@
                 <a href="{% url 'more' image.id %}"><img src={{image.image.url}} id="timeline_image" style="width:100%;">
                 </a>
                 <div style="margin:10px;">
-                    <span class="glyphicon glyphicon-heart-empty" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'like' image.id %}">
+                        <span class="glyphicon glyphicon-heart-empty" style="font-size:30px;" id='like_button'></span>&nbsp;&nbsp;&nbsp;
+                    </a>
                     <a href="{% url 'comment' image.id %}">
                         <span class="glyphicon glyphicon-edit" style="font-size:30px;"></span>
                     </a>
                     <span class="glyphicon glyphicon-bookmark" style="font-size:30px;float:right;"></span>
-                    <hr> {%for like in likes%} {%if like.image == image%} total.likes like: 1{%else%}Likes:none {% endif %} {% endfor %}
-
+                    <hr>
+                    <h5 style="font-weight: bolder;">{{image.likes}} likes</h5>
                     <h5>{{image.pub_date | timesince}} ago</h5>
                     <hr>
                     <a href="{% url 'comment' image.id %}">Add a comment...</a>
