@@ -1,17 +1,12 @@
 $(document).ready(function() {
             $("#like_button").click(function(event) {
-                event.preventDefault();
-                console.log('ok')
+                    event.preventDefault();
+                    console.log('ok')
 
-                $.ajax({
-                    'url': '/test/(\d+)',
-                    'type': 'POST',
-                    'data': form.serialize(),
-                    'dataType': 'json',
-                    'success': function(data) {
-                        alert(data['success'])
-                    },
+                    $.ajax({
+                            'url': '/test/(\d+)',
+                        },
 
-                }); // End of submit event
+                    }); // End of submit event
 
             }); // End of document ready

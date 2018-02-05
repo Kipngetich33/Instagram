@@ -1,17 +1,21 @@
 {% extends 'all-grams/base.html'%} {% load staticfiles%}{% load bootstrap3 %} {% block content %} {{block.super}}
 <div class="container">
-    <img src={{image.image.url}} style="float:left">
-    <h5>{{image.image_name}}</h5>
-    <p>{{image.image_caption}}</p>
-    <h5>{{image.pub_date}}</h5>
-
-    <div>
+    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 col-xg-1"></div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xg-5">
+        <img src={{image.image.url}} style="float:left " class="img-responsive ">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xg-5">
+        <h5 style="font-weight:bolder; color:blue; ">Details</h5>
+        <h5 class="image-responsive "><span style="font-weight:bolder; ">Name:&nbsp;&nbsp;&nbsp;</span>{{image.image_name}}</h5>
+        <p><span style="font-weight:bolder; ">Caption:&nbsp;&nbsp;&nbsp;</span>{{image.image_caption}}</p>
+        <h5><span style="font-weight:bolder; ">Date:&nbsp;&nbsp;&nbsp;</span>{{image.pub_date}}</h5>
+        <h5 style="font-weight:bolder; color:blue; ">Update Caption</h5>
         <form method="post">
             {% csrf_token %} {% bootstrap_form form layout='inline'%}
-            <input type="submit" class="btn btn-primary btn-sm" value="Submit">
-            <input type="hidden" name="next" value="{{next}}">
-
+            <input type="submit" class="btn btn-primary btn-sm " value="Submit ">
+            <input type="hidden" name="next " value="{{next}} ">
         </form>
-        <p><a href="{% url 'timeline' %}">Back</a></p>
     </div>
+    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 col-xg-1"></div>
+
 </div> {% endblock %}

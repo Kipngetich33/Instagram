@@ -149,19 +149,22 @@ def follow(request,profile_id):
     requested_profile = Profile.objects.get(id = profile_id)
     follower = Follow(follower = current_user,user = requested_profile)
     follower.save_follower() 
-    return render(request,'profile/all.html') 
+    return redirect(profile) 
 
 def like(request,image_id):
     requested_image = Image.objects.get(id = image_id)
     current_user = request.user
-    if_voted = Like.objects.filter(image = requested_image).get(user = current_user ).count()
+    if_voted = Like.objects.filter(image = requested_image,user = current_user).count()
     
     if if_voted==0:
-        requested_image.likes -1
-        requested_image.save_image()
-    else:
         requested_image.likes +=1
         requested_image.save_image()
+        like = Like(user = current_user, image = requested_image )
+        like.save_like()
+        return redirect(timeline)
+
+    else:
+        return redirect(timeline)
     
     return render(request,'all-grams/timeline.html')
 
