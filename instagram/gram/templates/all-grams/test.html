@@ -1,5 +1,8 @@
 {%extends 'all-grams/base.html'%} {%load staticfiles%} {%load bootstrap3 %} {% block content %}
 <div class="row">
-    here: {% for post in timeline_posts %}
-    <div><img src="{{post.image.url}}"></div>
-    {% endfor%} </div> {% endblock%}
+    <div style="overflow:scroll; height:400px;">
+        here: {% for post in timeline_posts %}
+        <div><img src="{{post.image.url}}"></div>
+        {% endfor%} </div>
+</div>
+{% endblock%}
