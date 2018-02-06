@@ -6,10 +6,10 @@ class Profile(models.Model):
     '''
     class that defines the structure of each profile object
     '''
-    username = models.CharField(max_length=30,null= True)
+    username = models.CharField(max_length=30,default='User')
     profile_photo = models.ImageField(upload_to="images/",null = True)
-    bio = models.TextField(default='',blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
+    bio = models.TextField(default='User does not have bio yet',blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null= True )
     
     def __str__(self):
         return self.username
@@ -113,7 +113,7 @@ class Like(models.Model):
         return self.user.username
 
     def save_like(self):
-        self.save()
+        self.save() 
 
     def unlike(self):
         self.delete()

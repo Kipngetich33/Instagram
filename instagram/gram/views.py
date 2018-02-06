@@ -114,7 +114,9 @@ def profile(request):
         following = Follow.objects.filter(follower = current_user)
         followers = Follow.objects.filter(user = profile)
     except:
-        raise Http404()
+        profile = Profile.objects.get(username = 'default_user')
+        following = Follow.objects.filter(follower = current_user)
+        followers = Follow.objects.filter(user = profile)
 
     return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user,"following":following,"followers":followers})
 
@@ -156,7 +158,7 @@ def follow(request,profile_id):
 
     if is_following == 0:
         follower = Follow(follower = current_user,user = requested_profile)
-        follower.save_follower() 
+        follower.save_follower()  
         return redirect(profile)
     else:
         follow_object.delete()
