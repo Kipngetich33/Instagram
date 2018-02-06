@@ -1,18 +1,25 @@
 {%extends 'profile/base.html'%}{% block content %}
 
 <div class="container">
-    {% for profile in all_profiles%}
-    <div class="col-md-4">
-        <div class="row">
-            <img src={{profile.profile_photo.url}} style="float:left; height:300px; width:300px;">
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+        {% for profile in all_profiles%}
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="row">
+                <a href="{%url 'single_user' profile.id %}">
+                    <img src={{profile.profile_photo.url}} class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
+                </a>
+            </div>
+            <div class="row">
+                <a href="{%url 'single_user' profile.id %}"></a>
+                <h5 style="font-size:35px;">{{profile.username}}</h5>
+                <a href="{% url 'follow' profile.id %}">
+                    <button type="button" class="btn btn-primary" style="margin-bottom:10px;">Follow </button>
+                </a>
+            </div>
         </div>
-        <div class="row">
-            <h5 style="font-size:35px;">{{profile.username}}</h5>
-            <a href="{% url 'follow' profile.id %}">
-                <button type="button" class="btn btn-primary">Follow </button>
-            </a>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
 </div>
 {% endblock %}

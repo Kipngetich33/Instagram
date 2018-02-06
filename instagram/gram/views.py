@@ -13,6 +13,7 @@ def timeline(request):
     timeline_images = Image.get_all_images()
     return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
 
+@login_required(login_url='/accounts/login/')
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]:
         search_name = request.GET.get("name")
@@ -24,13 +25,15 @@ def search_results(request):
         message = "Please enter a valid username"
     return render(request,'all-grams/search_results.html',{"message":message})
 
+@login_required(login_url='/accounts/login/')
 def single_user(request,id):
     try:
         user = Profile.objects.get(id=id)
     except:
         raise Http404()
-    return render(request,'all-grams/single.html',{"user":user,"user_images":user_images})
+    return render(request,'all-grams/single.html',{"user":user})
 
+@login_required(login_url='/accounts/login/')
 def single_image(request,image_id): 
     try:
         image = Image.objects.get(id= image_id)
@@ -52,7 +55,7 @@ def post(request):
         if form.is_valid():
             image = form.save(commit = False)
             image.user_key = current_user
-            image.likes +=1
+            image.likes +=0
             image.save() 
 
             return redirect( timeline)
@@ -60,6 +63,7 @@ def post(request):
         form = ImageForm() 
     return render(request, 'all-grams/post.html',{"form" : form}) 
 
+@login_required(login_url='/accounts/login/')
 def comment(request, image_id):
     current_image = Image.objects.get(id=image_id)
     current_user = request.user
@@ -101,6 +105,7 @@ def update_profile(request):
         form = ProfileUpdateForm()
     return render(request,'profile/update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
+@login_required(login_url='/accounts/login/')
 def profile(request):
     title = 'Profile'
     current_user = request.user
@@ -113,6 +118,7 @@ def profile(request):
 
     return render(request, 'profile/profile.html',{"profile":profile,"current_user":current_user,"following":following,"followers":followers})
 
+@login_required(login_url='/accounts/login/')
 def more(request,image_id):
     image = Image.objects.get(id = image_id)
 
@@ -132,29 +138,37 @@ def more(request,image_id):
 
     return render(request,'all-grams/more.html',{"image":image, "form":form}) 
 
+@login_required(login_url='/accounts/login/')
 def test(request):
-    current_user = request.user
-    following = Follow.objects.filter(user)
-
-    
-
     return render(request, 'all-grams/test.html')
 
+@login_required(login_url='/accounts/login/')
 def view_profiles(request):
     all_profiles = Profile.objects.all()
     return render(request,'profile/all.html',{"all_profiles":all_profiles}) 
 
+@login_required(login_url='/accounts/login/')
 def follow(request,profile_id):
     current_user = request.user
     requested_profile = Profile.objects.get(id = profile_id)
-    follower = Follow(follower = current_user,user = requested_profile)
-    follower.save_follower() 
-    return redirect(profile) 
+    is_following = Follow.objects.filter(follower = current_user,user = requested_profile).count()
+    follow_object = Follow.objects.filter(follower = current_user,user = requested_profile)
 
+    if is_following == 0:
+        follower = Follow(follower = current_user,user = requested_profile)
+        follower.save_follower() 
+        return redirect(profile)
+    else:
+        follow_object.delete()
+        return redirect(profile)
+
+
+@login_required(login_url='/accounts/login/')
 def like(request,image_id):
     requested_image = Image.objects.get(id = image_id)
     current_user = request.user
     if_voted = Like.objects.filter(image = requested_image,user = current_user).count()
+    unlike_parameter = Like.objects.filter(image = requested_image,user = current_user)
     
     if if_voted==0:
         requested_image.likes +=1
@@ -164,6 +178,10 @@ def like(request,image_id):
         return redirect(timeline)
 
     else:
+        requested_image.likes -=1
+        requested_image.save_image()
+        for single_unlike in unlike_parameter:
+            single_unlike.unlike()
         return redirect(timeline)
     
     return render(request,'all-grams/timeline.html')

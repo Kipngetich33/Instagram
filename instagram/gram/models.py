@@ -109,8 +109,6 @@ class Like(models.Model):
 
     image = models.ForeignKey(Image,on_delete=models.CASCADE, null = True)
 
-    likes_number = models.PositiveIntegerField(null=True, blank=True)
-
     def __int__(self):
         return self.user.username
 
@@ -118,8 +116,7 @@ class Like(models.Model):
         self.save()
 
     def unlike(self):
-        self.likes_number = 1
-        self.save()
+        self.delete()
 
     def like(self):
         self.likes_number = 2

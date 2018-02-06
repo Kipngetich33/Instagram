@@ -1,14 +1,20 @@
 {%extends 'all-grams/base.html'%} {% block content %}
 
 <div class="container">
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+    <div class="col-xs-10 col-sm-10 col-md-5 col-lg-5 col-xl-5">
+        <img src="{{user.profile_photo.url}}" class="img-responsive img-rounded" alt="">
+    </div>
+    <div class="col-xs-10 col-sm-10 col-md-5 col-lg-5 col-xl-5">
+        <h5 style="color:blue; font-weight:bolder;">Details</h5>
+        <h5><span style="font-weight:bolder;">Username:</span>{{user.username}}</h5>
+        <h5><span style="font-weight:bolder;">Following:</span></h5>
+        <h5><span style="font-weight:bolder;">Followers:</span></h5>
+        <p><span style="font-weight:bolder;">Bio:<br></span>{{user.bio}}</p>
+    </div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
 
-    <div class="row">
-        <img src="{{user.profile_photo.url}}" class="img-responsive" alt="">
-    </div>
-    <div class="row">
-        <h5>{{user.username}}</h5>
-        <p>{{user.bio}}</p>
-    </div>
+
 
 </div>
 
