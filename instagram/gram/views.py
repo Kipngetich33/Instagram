@@ -10,15 +10,23 @@ import os
 @login_required(login_url='/accounts/login/')
 def timeline(request):
     date = dt.date.today()
-    timeline_images = Image.get_all_images()
+    current_user = request.user
+    following  = Follow.objects.filter(follower = current_user)
+    timeline_posts1 = []
+    for post in following:
+        image_items = Image.objects.filter(user_key= post.id)
+        for image in image_items:
+            timeline_posts1.append(image) 
+            timeline_images = list(reversed(timeline_posts1)) 
+
     return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
 
 @login_required(login_url='/accounts/login/')
 def search_results(request):
-    if 'name' in request.GET and request.GET["name"]:
+    if 'name' in request.GET and request.GET["name"]: 
         search_name = request.GET.get("name")
         found_users = Profile.find_profile(search_name)
-        message =f"{search_name}"
+        message =f"{search_name}" 
 
         return render(request,'all-grams/search_results.html',{"message":message,"found_users":found_users})
     else:
@@ -88,21 +96,31 @@ def comment(request, image_id):
 def update_profile(request):
     current_user = request.user 
     title = 'Update Profile'
+    try:
+        requested_profile = Profile.objects.get(user_id = current_user.id)
+        if request.method == 'POST':
+            form = ProfileUpdateForm(request.POST,request.FILES)
 
-    current_user = request.user
-    requested_profile = Profile.objects.get(user_id = current_user.id)
+            if form.is_valid():
+                requested_profile.profile_photo = form.cleaned_data['profile_photo']
+                requested_profile.bio = form.cleaned_data['bio']
+                requested_profile.username = form.cleaned_data['username']
+                requested_profile.save_profile()
+                return redirect( profile )
+        else:
+            form = ProfileUpdateForm()
+    except:
+        if request.method == 'POST':
+            form = ProfileUpdateForm(request.POST,request.FILES)
 
-    if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST,request.FILES)
+            if form.is_valid():
+                new_profile = Profile(profile_photo= form.cleaned_data['profile_photo'],bio = form.cleaned_data['bio'],username = form.cleaned_data['username'],user = current_user)
+                new_profile.save_profile()
+                return redirect( profile )
+        else:
+            form = ProfileUpdateForm()
 
-        if form.is_valid():
-            requested_profile.profile_photo = form.cleaned_data['profile_photo']
-            requested_profile.bio = form.cleaned_data['bio']
-            requested_profile.username = form.cleaned_data['username']
-            requested_profile.save_profile()
-            return redirect( profile )
-    else:
-        form = ProfileUpdateForm()
+
     return render(request,'profile/update_profile.html',{"title":title,"current_user":current_user,"form":form})
 
 @login_required(login_url='/accounts/login/')
@@ -141,10 +159,6 @@ def more(request,image_id):
     return render(request,'all-grams/more.html',{"image":image, "form":form}) 
 
 @login_required(login_url='/accounts/login/')
-def test(request):
-    return render(request, 'all-grams/test.html')
-
-@login_required(login_url='/accounts/login/')
 def view_profiles(request):
     all_profiles = Profile.objects.all()
     return render(request,'profile/all.html',{"all_profiles":all_profiles}) 
@@ -159,10 +173,10 @@ def follow(request,profile_id):
     if is_following == 0:
         follower = Follow(follower = current_user,user = requested_profile)
         follower.save_follower()  
-        return redirect(profile)
+        return redirect(view_profiles)
     else:
         follow_object.delete()
-        return redirect(profile)
+        return redirect(view_profiles)
 
 
 @login_required(login_url='/accounts/login/')
@@ -189,6 +203,18 @@ def like(request,image_id):
     return render(request,'all-grams/timeline.html')
 
 
+
+@login_required(login_url='/accounts/login/')
+def test(request):
+    current_user = request.user
+    following  = Follow.objects.filter(follower = current_user)
+    timeline_posts1 = []
+    for post in following:
+        image_items = Image.objects.filter(user_key= post.id)
+        for image in image_items:
+            timeline_posts1.append(image) 
+            timeline_posts = list(reversed(timeline_posts1)) 
+    return render(request, 'all-grams/test.html',{"timeline_posts":timeline_posts })
 
 
 

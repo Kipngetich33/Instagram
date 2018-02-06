@@ -19,7 +19,7 @@
                 </a>
                 <h5><span style="font-weight:bolder;">Followers:&nbsp;&nbsp;&nbsp;</span>{{followers | length }}</h5>
                 <h5><span style="font-weight:bolder;">Following:&nbsp;&nbsp;&nbsp;</span>{{following | length }}</h5 {% else%} <h3>Profile has not been created yet</h3>
-                {% endif %}
+                <a href="{% url 'update_profile'%}"><button class="btn btn-primary">Create Profile</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {% endif %}
                 <hr>
             </div>
         </div>
