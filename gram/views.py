@@ -11,7 +11,7 @@ from django.template.defaulttags import register
 @login_required(login_url='/accounts/login/')
 def timeline(request):
     date = dt.date.today()
-    current_user = request.user
+    current_user = request.user 
     timeline_posts1 =[]
     following  = Follow.objects.filter(follower = current_user)
     is_following =  Follow.objects.filter(follower = current_user).count()
@@ -26,8 +26,6 @@ def timeline(request):
     except:
         return render(request, 'all-grams/first_time.html')
     
-
-
 @login_required(login_url='/accounts/login/')
 def search_results(request):
     if 'name' in request.GET and request.GET["name"]: 
@@ -183,7 +181,7 @@ def follow(request,profile_id):
 
     if is_following == 0:
         follower = Follow(follower = current_user,user = requested_profile)
-        follower.save_follower()  
+        follower.save()  
         return redirect(view_profiles)
     else:
         follow_object.delete()
