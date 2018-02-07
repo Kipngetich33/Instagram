@@ -12,19 +12,24 @@ from django.template.defaulttags import register
 def timeline(request):
     date = dt.date.today()
     current_user = request.user 
-    timeline_posts1 =[]
+    followed_people= []
+    images1 =[]
     following  = Follow.objects.filter(follower = current_user)
-    is_following =  Follow.objects.filter(follower = current_user).count()
+    is_following = Follow.objects.filter(follower = current_user).count()
     try:
         if is_following != 0:
-            for followee in following:
-                image_items = Image.objects.filter(user_key= followee.id)
-                for image in image_items:
-                    timeline_posts1.append(image) 
-                    timeline_images = (timeline_posts1) 
-        return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images})
+            for folling_object in following:
+                image_set = Profile.objects.filter(id = folling_object.user.id)
+                for item in image_set:
+                    followed_people.append(item)
+            for followed_profile in followed_people:
+                post = Image.objects.filter(user_key = followed_profile.user)
+                for item in post:
+                    images1.append(item)                                                                                                                                                                                                                                                                                                                                                                  
+            return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":images1})
     except:
-        return render(request, 'all-grams/first_time.html')
+        raise Http404
+    return render(request, 'all-grams/first_time.html') 
     
 @login_required(login_url='/accounts/login/')
 def search_results(request):
@@ -212,15 +217,29 @@ def like(request,image_id):
     return render(request,'all-grams/timeline.html')
 
 
-
-@login_required(login_url='/accounts/login/')
-def test(request):
-    return render(request, 'all-grams/test.html')
-
 @login_required(login_url='/accounts/login/')
 def fist_time(request):
     return render(request, 'all-grams/first_time.html') 
 
-
-
+def test(request):
+    date = dt.date.today()
+    current_user = request.user 
+    followed_people= []
+    images1 =[]
+    following  = Follow.objects.filter(follower = current_user)
+    is_following = Follow.objects.filter(follower = current_user).count()
+    try:
+        if is_following != 0:
+            for folling_object in following:
+                image_set = Profile.objects.filter(id = folling_object.user.id)
+                for item in image_set:
+                    followed_people.append(item)
+            for followed_profile in followed_people:
+                post = Image.objects.filter(user_key = followed_profile.user)
+                for item in post:
+                    images1.append(item)                                                                                                                                                                                                                                                                                                                                                                  
+            return render(request, 'all-grams/test.html',{"date":date,"images1":images1})
+    except:
+        raise Http404
+    return render(request, 'all-grams/first_time.html') 
 

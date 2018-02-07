@@ -1,7 +1,10 @@
 {%extends 'all-grams/base.html'%} {%load staticfiles%} {%load bootstrap3 %} {% block content %}
 <div class="row">
-    <div style="overflow:scroll; height:400px;">
-        {% for post in timeline_posts %} {{post.Comment.comment}} {% endfor %}
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        {%for image in images1%} {{image.image_name}} {% endfor %}
+
     </div>
+    <div class="col-md-1"></div>
 </div>
 {% endblock%}
