@@ -8,23 +8,25 @@ from . forms import ImageForm, CommentForm, ProfileUpdateForm,UpdateImageCaption
 import os
 from django.template.defaulttags import register
 
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
-
 @login_required(login_url='/accounts/login/')
 def timeline(request):
     date = dt.date.today()
     current_user = request.user
+    timeline_posts1 =[]
     following  = Follow.objects.filter(follower = current_user)
-    timeline_posts1 = []
-    for post in following:
-        image_items = Image.objects.filter(user_key= post.id)
-        for image in image_items:
-            timeline_posts1.append(image) 
-            timeline_images = list(reversed(timeline_posts1)) 
+    is_following =  Follow.objects.filter(follower = current_user).count()
+    try:
+        if is_following != 0:
+            for followee in following:
+                image_items = Image.objects.filter(user_key= followee.id)
+                for image in image_items:
+                    timeline_posts1.append(image) 
+                    timeline_images = list(reversed(timeline_posts1)) 
+        return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images})
+    except:
+        return render(request, 'all-grams/first_time.html')
+    
 
-    return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images}) 
 
 @login_required(login_url='/accounts/login/')
 def search_results(request):
@@ -215,15 +217,11 @@ def like(request,image_id):
 
 @login_required(login_url='/accounts/login/')
 def test(request):
-    current_user = request.user
-    following  = Follow.objects.filter(follower = current_user)
-    timeline_posts = []
-    for post in following:
-        image_items = Image.objects.filter(user_key= post.id)
-        for image in image_items:
-            timeline_posts.append(image)
+    return render(request, 'all-grams/test.html')
 
-    return render(request, 'all-grams/test.html',{"timeline_posts":timeline_posts })
+@login_required(login_url='/accounts/login/')
+def fist_time(request):
+    return render(request, 'all-grams/first_time.html') 
 
 
 
