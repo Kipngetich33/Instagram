@@ -1,11 +1,16 @@
 from django.http  import Http404
 from django.shortcuts import render,redirect
-from . models import Image ,Profile, Like, Follow
+from . models import Image ,Profile, Like, Follow, Comment
 import datetime as dt
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from . forms import ImageForm, CommentForm, ProfileUpdateForm,UpdateImageCaption 
 import os
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
 
 @login_required(login_url='/accounts/login/')
 def timeline(request):
@@ -73,6 +78,7 @@ def post(request):
 
 @login_required(login_url='/accounts/login/')
 def comment(request, image_id):
+    comments = Comment.objects.filter(image_id=image_id)
     current_image = Image.objects.get(id=image_id)
     current_user = request.user
 
@@ -80,17 +86,20 @@ def comment(request, image_id):
 
         form = CommentForm(request.POST)
         logger_in = request.user
+        
 
         if form.is_valid():
             comment = form.save(commit = False)
             comment.user_id= current_user
             comment.image_id = current_image
+            current_image.comments_number+=1
+            current_image.save_image()
+            comment.save()
 
-            comment.save() 
             return redirect(timeline)
     else:
         form = CommentForm()
-    return render(request,'all-grams/comment.html',{"form":form})  
+    return render(request,'all-grams/comment.html',{"form":form,"comments":comments})  
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
@@ -208,12 +217,12 @@ def like(request,image_id):
 def test(request):
     current_user = request.user
     following  = Follow.objects.filter(follower = current_user)
-    timeline_posts1 = []
+    timeline_posts = []
     for post in following:
         image_items = Image.objects.filter(user_key= post.id)
         for image in image_items:
-            timeline_posts1.append(image) 
-            timeline_posts = list(reversed(timeline_posts1)) 
+            timeline_posts.append(image)
+
     return render(request, 'all-grams/test.html',{"timeline_posts":timeline_posts })
 
 

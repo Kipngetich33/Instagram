@@ -35,6 +35,7 @@ class Image(models.Model):
     profile_key = models.ForeignKey(Profile,on_delete=models.CASCADE, null = True)
     user_key = models.ForeignKey(User,on_delete= models.CASCADE , null = True)
     likes = models.PositiveIntegerField(default=0)
+    comments_number = models.PositiveIntegerField(default=0)
         
     def __str__(self):
         return self.image_name 
@@ -92,8 +93,7 @@ class Comment(models.Model):
         '''
         method that save a comment on an image
         '''
-        self.save()
-
+        self.sa
     def delete_comment(self):
         '''
         methods that deletes a comment on an image

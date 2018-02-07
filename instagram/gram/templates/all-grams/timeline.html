@@ -33,8 +33,7 @@
                     <h5 style="font-weight: bolder;">{{image.likes}} likes</h5>
                     <div style="overflow: hidden; height:50px;">
                         <h5>
-                            Just use overflow: auto.Not sure why this was downvoted, but I just upvoted it as it does go in the right direction, the other solutions didn't really work well in my case. overflow-x: hidden; + overflow-y: scroll; is what did the trick, along with the
-                            >100% width (110% in my case worked nicely).
+                            {{image.comments_number}}&nbsp; comments<a href="{% url 'comment' image.id %}"> View </a>
                         </h5>
                     </div>
                     <h5>{{image.pub_date | timesince}} ago</h5>

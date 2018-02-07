@@ -1,8 +1,7 @@
 {%extends 'all-grams/base.html'%} {%load staticfiles%} {%load bootstrap3 %} {% block content %}
 <div class="row">
     <div style="overflow:scroll; height:400px;">
-        here: {% for post in timeline_posts %}
-        <div><img src="{{post.image.url}}"></div>
-        {% endfor%} </div>
+        {% for post in timeline_posts %} {{post.Comment.comment}} {% endfor %}
+    </div>
 </div>
 {% endblock%}
