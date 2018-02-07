@@ -21,7 +21,7 @@ def timeline(request):
                 image_items = Image.objects.filter(user_key= followee.id)
                 for image in image_items:
                     timeline_posts1.append(image) 
-                    timeline_images = list(reversed(timeline_posts1)) 
+                    timeline_images = (timeline_posts1) 
         return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":timeline_images})
     except:
         return render(request, 'all-grams/first_time.html')
