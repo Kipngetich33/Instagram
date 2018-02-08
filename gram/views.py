@@ -25,8 +25,9 @@ def timeline(request):
             for followed_profile in followed_people:
                 post = Image.objects.filter(user_key = followed_profile.user)
                 for item in post:
-                    images1.append(item)                                                                                                                                                                                                                                                                                                                                                                  
-            return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":images1})
+                    images1.append(item)
+                    images= list(reversed(images1))                                                                                                                                                                                                                                                                                                                                                                  
+            return render(request, 'all-grams/timeline.html',{"date":date,"timeline_images":images})
     except:
         raise Http404
     return render(request, 'all-grams/first_time.html') 
