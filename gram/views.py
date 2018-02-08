@@ -222,25 +222,7 @@ def like(request,image_id):
 def fist_time(request):
     return render(request, 'all-grams/first_time.html') 
 
-def test(request):
-    date = dt.date.today()
-    current_user = request.user 
-    followed_people= []
-    images1 =[]
-    following  = Follow.objects.filter(follower = current_user)
-    is_following = Follow.objects.filter(follower = current_user).count()
-    try:
-        if is_following != 0:
-            for folling_object in following:
-                image_set = Profile.objects.filter(id = folling_object.user.id)
-                for item in image_set:
-                    followed_people.append(item)
-            for followed_profile in followed_people:
-                post = Image.objects.filter(user_key = followed_profile.user)
-                for item in post:
-                    images1.append(item)                                                                                                                                                                                                                                                                                                                                                                  
-            return render(request, 'all-grams/test.html',{"date":date,"images1":images1})
-    except:
-        raise Http404
-    return render(request, 'all-grams/first_time.html') 
+def test(request):                                                                                                                                                                                                                                                                                                                                                                  
+    return render(request, 'all-grams/test.html')
+  
 
