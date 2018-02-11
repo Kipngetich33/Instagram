@@ -74,6 +74,7 @@ This project uses major technologies which are :
 * Bootstrap
 * Python3.6
 * Django Frane Work
+* Postgress Database
 
 ## Support and Contacts
 

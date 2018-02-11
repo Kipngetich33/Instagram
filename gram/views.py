@@ -145,7 +145,7 @@ def profile(request):
     try:
         profile = Profile.objects.get(user_id = current_user)
         following = Follow.objects.filter(follower = current_user)
-        followers = Follow.objects.filter(user = profile)
+        followers = Follow.objects.filter(user = profile) 
     except:
         profile = Profile.objects.get(username = 'default_user')
         following = Follow.objects.filter(follower = current_user)

@@ -39,8 +39,9 @@
                     <h5>{{image.pub_date | timesince}} ago</h5>
                     <hr>
                     <a href="{% url 'comment' image.id %}">Add a comment...</a>
-                    <span class="glyphicon glyphicon-option-horizontal" style="float:right; font-size:20px;"></span>
-
+                    <a href="{% url 'more' image.id %}">
+                        <span class="glyphicon glyphicon-option-horizontal" style="float:right; font-size:20px;"></span>
+                    </a>
                 </div>
             </div>
             {%endfor%}
